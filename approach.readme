@@ -1,0 +1,5 @@
+Using web3js and infura to interact with ethereum network.
+Get pastLogs for a contract(erc20 token).
+From PastLogs, get the add. of users involved in txns with this contract
+Now subscribe for new logs.
+Keep fetching new users involved in txns.
