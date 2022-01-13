@@ -1,5 +1,5 @@
-Using web3js and infura to interact with ethereum network.
-Get pastLogs for a contract(erc20 token).
-From PastLogs, get the add. of users involved in txns with this contract
-Now subscribe for new logs.
+Using web3js and alchemy node client to interact with ethereum network.
+Get pastEvents for a contract(erc20 token).
+From PastEvents, get the add. of users involved in txns with this contract
+Now subscribe for new events.
 Keep fetching new users involved in txns.
