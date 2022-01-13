@@ -24,9 +24,10 @@ while(start < 13994000){
         toBlock: start + 1900
     }).then(val => {
         for(let x of val){
+            // console.log(x);
             console.log(x.returnValues.to);
         }
     })
     start += 1900; // incrementing the block number to make sure alchemy client do not throw any error.
-    
+
 }
