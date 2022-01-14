@@ -3,7 +3,7 @@ const fs = require('fs');
 
 const traceContract = require("web3-eth-contract");
 
-const provider = "https://eth-mainnet.alchemyapi.io/v2/ME9g3GUiEdOP0lGP2iRbLnGslxgRmKM-";
+const provider = process.env.NODE_CLIENT_KEY;
 
 traceContract.setProvider(provider);
 
