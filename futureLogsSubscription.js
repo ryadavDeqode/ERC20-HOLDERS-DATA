@@ -2,7 +2,7 @@
 
 const Web3 = require("web3");
 
-const provider = 'wss://eth-mainnet.alchemyapi.io/v2/ME9g3GUiEdOP0lGP2iRbLnGslxgRmKM-';
+const provider = process.env.NODE_CLIENT_KEY;
 
 let web3 = new Web3(new Web3.providers.WebsocketProvider(provider));
 

@@ -16,7 +16,7 @@ mongoose.connect(DB).then(() =>{
 
 const traceContract = require("web3-eth-contract");
 
-const provider = process.env.NODE_CLIENT_KEY; // using alchemy!
+const provider = process.env.NODE_CLIENT_KEY;
 
 traceContract.setProvider(provider);
 
