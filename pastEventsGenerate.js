@@ -1,9 +1,22 @@
 "use strict";
-const fs = require('fs');
+
+const mongoose = require('mongoose');
+const Holder = require('./model/holderSchema');
+const web3 = require("web3");
+
+const dotnv = require("dotenv");
+dotnv.config();
+
+const DB = process.env.MONGO_CONNECTION_STRING;
+
+mongoose.connect(DB).then(() =>{
+    console.log('connection successful');
+
+}).catch((err) => console.log('no connection'));
 
 const traceContract = require("web3-eth-contract");
 
-const provider = "https://eth-mainnet.alchemyapi.io/v2/ME9g3GUiEdOP0lGP2iRbLnGslxgRmKM-";
+const provider = process.env.NODE_CLIENT_KEY; // using alchemy!
 
 traceContract.setProvider(provider);
 
@@ -13,21 +26,37 @@ let _address = "0xdac17f958d2ee523a2206206994597c13d831ec7"; // this is usdt con
 
 let contract = new traceContract(usdtABI,_address);
 
-let holders = []; 
-let balanceOfHolders = [];
-let start = 4634748; // This is the block at which usdt was deployed, got it from etherscan.
-while(start < 13994000){ 
-
-    contract.getPastEvents('Transfer',
-    {
-        fromBlock: start,
-        toBlock: start + 1900
-    }).then(val => {
-        for(let x of val){
-            // console.log(x);
-            console.log(x.returnValues.to);
+async function doit(from,to) {
+    console.log("waiting");
+    await contract.getPastEvents('Transfer',{
+        fromBlock : from,
+        toBlock: to
+    }).then((res)=>{
+        for(let val of res){
+            const newHolder = {
+                "address": val.returnValues.to,
+                "value": parseInt(val.returnValues.value)
+            }
+            const holder = new Holder(newHolder);
+            holder.save()
+            .then(item => {
+                console.log("Data Saved to DB");
+            })
+            .catch(err => {
+                console.log("unable to save data!");
+            });
         }
-    })
-    start += 1900; // incrementing the block number to make sure alchemy client do not throw any error.
-
+    });
 }
+
+
+
+let start = 4634748; // The block Number at which usdt was deployed!
+
+async function perform(){
+
+    for(let st = start; st < 14027566;st+=2000){
+        await doit(st,st+1900);
+    }
+}
+perform(); // Data Being Filled in cloud (*mongodb ATLAS)
