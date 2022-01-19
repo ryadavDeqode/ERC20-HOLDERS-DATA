@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const holderSchema = new mongoose.Schema({
-  address: String,
+  address: { type: String, unique: true, required: true, dropDups: true },
   value: String,
 });
 
